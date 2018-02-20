@@ -1,20 +1,20 @@
-<!-- TOC -->
-
-- [thevent](#thevent)
-    - [Features](#features)
-    - [Example](#example)
-    - [Requirements](#requirements)
-    - [What's with the name?](#whats-with-the-name)
-    - [Pronoucnciation](#pronoucnciation)
-    - [Benchmarks](#benchmarks)
-
-<!-- /TOC -->
-
 # thevent
 [![Build Status](https://img.shields.io/travis/dhui/thevent/master.svg)](https://travis-ci.org/dhui/thevent) [![Code Coverage](https://img.shields.io/codecov/c/github/dhui/thevent.svg)](https://codecov.io/gh/dhui/thevent) [![GoDoc](https://godoc.org/github.com/dhui/thevent?status.svg)](https://godoc.org/github.com/dhui/thevent) [![Go Report Card](https://goreportcard.com/badge/github.com/dhui/thevent)](https://goreportcard.com/report/github.com/dhui/thevent) [![GitHub Release](https://img.shields.io/github/release/dhui/thevent/all.svg)](https://github.com/dhui/thevent/releases)
 ![Min Go version](https://img.shields.io/badge/Go-1.10%2B-brightgreen.svg)
 
 thevent is a typed hierarchical event system
+
+# Table of Contents
+<!-- TOC depthFrom:2 -->
+
+- [Features](#features)
+- [Example](#example)
+- [Requirements](#requirements)
+- [What's with the name?](#whats-with-the-name)
+- [Pronoucnciation](#pronoucnciation)
+- [Benchmarks](#benchmarks)
+
+<!-- /TOC -->
 
 ## Features
 * Typed events
