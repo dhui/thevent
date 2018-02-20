@@ -54,7 +54,7 @@ func main() {
 
 ## Requirements
 * thevent relies solely on the Go standard library and has no external dependencies
-* thevent needs Go 1.10 due to this [bug](https://github.com/golang/go/issues/21122) in earlier version of Go.
+* thevent needs Go 1.10 due to this [bug](https://github.com/golang/go/issues/21122) in earlier versions of Go.
 
 ## What's with the name?
 thevent is short for **T**yped**H**ierachical**Event**s
