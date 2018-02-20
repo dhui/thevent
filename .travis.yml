@@ -1,0 +1,21 @@
+language: go
+sudo: false
+
+matrix:
+  allow_failures:
+  - go: master
+  include:
+  # Supported versions of Go: https://golang.org/dl/
+  - go: 1.10.x
+  - go: master
+
+before_script:
+  - go vet ./...
+  - golint ./...
+  - gofmt -e -d -s .
+
+script:
+  - go test -v -race -coverprofile=coverage.txt
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
