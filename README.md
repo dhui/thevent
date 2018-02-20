@@ -11,7 +11,7 @@ thevent is a typed hierarchical event system
 - [Example](#example)
 - [Requirements](#requirements)
 - [What's with the name?](#whats-with-the-name)
-- [Pronoucnciation](#pronoucnciation)
+- [Pronunciation](#pronunciation)
 - [Benchmarks](#benchmarks)
 
 <!-- /TOC -->
@@ -59,7 +59,7 @@ func main() {
 ## What's with the name?
 thevent is short for **T**yped**H**ierachical**Event**s
 
-## Pronoucnciation
+## Pronunciation
 the·vent
 
 ## Benchmarks
