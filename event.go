@@ -117,19 +117,19 @@ func (e *Event) dispatch(ctx context.Context, async bool, trackResults bool,
 	e.lock.RLock()
 	defer e.lock.RUnlock()
 	// Fine to hold onto read lock while handlers and all sub-Event handlers run
-	for _, s := range e.handlers {
+	for _, h := range e.handlers {
 		if async {
 			wg.Add(1)
-			go func(s reflect.Value) {
+			go func(_h reflect.Value) {
 				defer wg.Done()
-				res := s.Call(args)
+				res := _h.Call(args)
 				if trackResults {
 					err := convertToError(res)
 					errorsCh <- err
 				}
-			}(s)
+			}(h)
 		} else {
-			res := s.Call(args)
+			res := h.Call(args)
 			if trackResults {
 				if err := results.addResult(res); err != nil {
 					e, ok := err.(TypeError)
@@ -240,27 +240,27 @@ func (e *Event) DispatchAsyncWithErrors(ctx context.Context, data interface{}) (
 // AddHandlers adds the Handlers to the Event
 func (e *Event) AddHandlers(handlers ...Handler) error {
 	convertedHandlers := make(map[uintptr]reflect.Value, len(handlers))
-	for _, s := range handlers {
-		sV := reflect.ValueOf(s)
-		sT := sV.Type()
-		if sT != e.handlerType {
+	for _, h := range handlers {
+		hV := reflect.ValueOf(h)
+		hT := hV.Type()
+		if hT != e.handlerType {
 			return TypeError{fmt.Errorf("Handler uses incorrect data type. Expected: %s Got: %s",
-				e.handlerType.String(), sT.String())}
+				e.handlerType.String(), hT.String())}
 		}
-		if _, ok := convertedHandlers[sV.Pointer()]; ok {
+		if _, ok := convertedHandlers[hV.Pointer()]; ok {
 			return TypeError{errors.New("Unable to add duplicate handler")}
 		}
-		convertedHandlers[sV.Pointer()] = sV
+		convertedHandlers[hV.Pointer()] = hV
 	}
 	e.lock.Lock()
 	defer e.lock.Unlock()
-	for _, cS := range convertedHandlers {
-		if _, ok := e.handlers[cS.Pointer()]; ok {
+	for _, cH := range convertedHandlers {
+		if _, ok := e.handlers[cH.Pointer()]; ok {
 			return TypeError{errors.New("Unable to add duplicate handler")}
 		}
 	}
-	for _, cS := range convertedHandlers {
-		e.handlers[cS.Pointer()] = cS
+	for _, cH := range convertedHandlers {
+		e.handlers[cH.Pointer()] = cH
 	}
 	return nil
 }
