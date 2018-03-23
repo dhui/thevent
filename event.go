@@ -42,7 +42,7 @@ type Event struct {
 
 // HandlersResults contains the results of handlers handling a dispatched event
 type HandlersResults struct {
-	NumHandlers int
+	NumHandlers uint
 	// Errors contains all of the non-nil errors returned by Handlers
 	Errors []error
 }
@@ -50,6 +50,15 @@ type HandlersResults struct {
 // Erred returns true if any Handler for the Event erred
 func (r *HandlersResults) Erred() bool {
 	return len(r.Errors) > 0
+}
+
+// ErrorRate returns the error rate of handlers' for a dispatched event. An error rate of 0.0 means that no errors
+// occured and an error rate of 1.0 means that every handler errored
+func (r *HandlersResults) ErrorRate() float32 {
+	if r.NumHandlers <= 0 {
+		return 0.0
+	}
+	return float32(len(r.Errors)) / float32(r.NumHandlers)
 }
 
 // Collect updates the given HandlersResults with the given error channel.

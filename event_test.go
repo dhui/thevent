@@ -694,3 +694,39 @@ func TestMust(t *testing.T) {
 		})
 	}
 }
+
+func TestHandlersResultsErred(t *testing.T) {
+	testCases := []struct {
+		hr    thevent.HandlersResults
+		erred bool
+	}{
+		{hr: thevent.HandlersResults{}, erred: false},
+		{hr: thevent.HandlersResults{NumHandlers: 50}, erred: false},
+		{hr: thevent.HandlersResults{NumHandlers: 50, Errors: []error{errors.New("error")}}, erred: true},
+	}
+	for _, tc := range testCases {
+		t.Run("", func(t *testing.T) {
+			if erred := tc.hr.Erred(); erred != tc.erred {
+				t.Error("HandlersResults.Erred() returned:", erred, "expected:", tc.erred)
+			}
+		})
+	}
+}
+
+func TestHandlersResultsErrorRate(t *testing.T) {
+	testCases := []struct {
+		hr        thevent.HandlersResults
+		errorRate float32
+	}{
+		{hr: thevent.HandlersResults{}, errorRate: 0.0},
+		{hr: thevent.HandlersResults{NumHandlers: 50}, errorRate: 0.0},
+		{hr: thevent.HandlersResults{NumHandlers: 50, Errors: []error{errors.New("error")}}, errorRate: 0.02},
+	}
+	for _, tc := range testCases {
+		t.Run("", func(t *testing.T) {
+			if errorRate := tc.hr.ErrorRate(); errorRate != tc.errorRate {
+				t.Error("HandlersResults.Erred() returned:", errorRate, "expected:", tc.errorRate)
+			}
+		})
+	}
+}
