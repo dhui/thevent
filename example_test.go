@@ -3,10 +3,37 @@ package thevent_test
 import (
 	"context"
 	"fmt"
+	"sort"
 	"time"
 )
 
 import "github.com/dhui/thevent"
+
+// Queue output due to how event handlers and children are stored
+// See: https://github.com/dhui/thevent/issues/3
+type printQueueType struct {
+	queue []string
+}
+
+func (q *printQueueType) Append(s string) {
+	q.queue = append(q.queue, s)
+}
+
+func (q *printQueueType) Clear() {
+	q.queue = []string{}
+}
+
+func (q *printQueueType) Print() {
+	for _, s := range q.queue {
+		fmt.Println(s)
+	}
+}
+
+func (q *printQueueType) Sort() {
+	sort.Strings(q.queue)
+}
+
+var printQueue = printQueueType{}
 
 // Song and Playlist data structures and functions
 type song struct {
@@ -48,16 +75,16 @@ func (p *playlist) swapSongs(ctx context.Context, idxA, idxB int) error {
 
 // Event Handlers
 func playlistCreatedHandler(ctx context.Context, p playlist) error {
-	fmt.Printf("Created playlist %q with songs: %v\n", p.Name, p.Songs)
+	printQueue.Append(fmt.Sprintf("Created playlist %q with songs: %v", p.Name, p.Songs))
 	return nil
 }
 func queuedSongHandler(ctx context.Context, sp songPlaylist) error {
-	fmt.Printf("Queued song %q into playlist %q\n", sp.Song.Name, sp.Playlist.Name)
+	printQueue.Append(fmt.Sprintf("Queued song %q into playlist %q", sp.Song.Name, sp.Playlist.Name))
 	return nil
 }
 func swappedSongHandler(ctx context.Context, pss playlistSwapSongs) error {
-	fmt.Printf("Swapped songs %q and %q in playlist %q\n", pss.Playlist.Songs[pss.IdxB].Name,
-		pss.Playlist.Songs[pss.IdxA].Name, pss.Playlist.Name)
+	printQueue.Append(fmt.Sprintf("Swapped songs %q and %q in playlist %q",
+		pss.Playlist.Songs[pss.IdxB].Name, pss.Playlist.Songs[pss.IdxA].Name, pss.Playlist.Name))
 	return nil
 }
 
@@ -99,8 +126,12 @@ func Example() {
 		fmt.Println(err)
 	}
 
+	// Don't need to sort output since none of the dispatched events have multiple children or handlers
+	printQueue.Print()
+	printQueue.Clear()
+
 	playlistHandler := func(ctx context.Context, p playlist) error {
-		fmt.Printf("Top-level playlist event got playlist: %q\n", p.Name)
+		printQueue.Append(fmt.Sprintf("Top-level playlist event got playlist: %q", p.Name))
 		return nil
 	}
 	// Handlers may be added later
@@ -112,13 +143,17 @@ func Example() {
 		fmt.Println(err)
 	}
 
+	// Sort output since the top-level event has multiple children
+	printQueue.Sort()
+	printQueue.Print()
+
 	// Output:
 	// Created playlist "Best of Jimi" with songs: []
 	// Queued song "Purple Haze" into playlist "Best of Jimi"
 	// Queued song "Foxy Lady" into playlist "Best of Jimi"
 	// Swapped songs "Purple Haze" and "Foxy Lady" in playlist "Best of Jimi"
-	// Top-level playlist event got playlist: "Best of Jimi"
 	// Created playlist "Best of Jimi" with songs: [{Foxy Lady Jimi Hendrix 3m19s} {Purple Haze Jimi Hendrix 2m46s}]
 	// Queued song "" into playlist "Best of Jimi"
 	// Swapped songs "Foxy Lady" and "Foxy Lady" in playlist "Best of Jimi"
+	// Top-level playlist event got playlist: "Best of Jimi"
 }
