@@ -40,7 +40,7 @@ type Event struct {
 	children map[*Event]*reflect.StructField
 }
 
-// HandlersResults contains the results of handlers handling of a dispatched event
+// HandlersResults contains the results of handlers handling a dispatched event
 type HandlersResults struct {
 	NumHandlers int
 	// Errors contains all of the non-nil errors returned by Handlers
@@ -53,7 +53,7 @@ func (r *HandlersResults) Erred() bool {
 }
 
 // Collect updates the given HandlersResults with the given error channel.
-// Designed to be used with Event.DispatchAsyncWithResults()
+// Designed to be used with Event.DispatchAsyncWithErrors()
 func (r *HandlersResults) Collect(ch <-chan error) {
 	for err := range ch {
 		r.NumHandlers++
