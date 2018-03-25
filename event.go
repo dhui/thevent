@@ -62,7 +62,7 @@ func (r *HandlersResults) ErrorRate() float32 {
 }
 
 // Collect updates the given HandlersResults with the given error channel.
-// Designed to be used with Event.DispatchAsyncWithErrors()
+// Designed to be used with Event.DispatchAsyncWithResults()
 func (r *HandlersResults) Collect(ch <-chan error) {
 	for err := range ch {
 		r.NumHandlers++
@@ -237,11 +237,11 @@ func (e *Event) DispatchAsync(ctx context.Context, data interface{}) error {
 	return err
 }
 
-// DispatchAsyncWithErrors is the same as DispatchAsync but additionally provides a channel that streams the
+// DispatchAsyncWithResults is the same as DispatchAsync but additionally provides a channel that streams the
 // returned error from every handler for the event. It's the caller's responsibility to range over the channel as
 // the channel will be closed when all handlers are finished running. Not ranging over the returned channel will
 // leave dangling handlers. To "join" all of the errors use, HandlersResults.Collect().
-func (e *Event) DispatchAsyncWithErrors(ctx context.Context, data interface{}) (<-chan error, error) {
+func (e *Event) DispatchAsyncWithResults(ctx context.Context, data interface{}) (<-chan error, error) {
 	_, ch, err := e.dispatch(ctx, true, true, data)
 	return ch, err
 }

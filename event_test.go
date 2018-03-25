@@ -265,8 +265,8 @@ func TestDispatch(t *testing.T) {
 				}
 			})
 
-			t.Run("DispatchAsyncWithErrors", func(t *testing.T) {
-				ch, err := asyncEvent.DispatchAsyncWithErrors(ctx, tc.data)
+			t.Run("DispatchAsyncWithResults", func(t *testing.T) {
+				ch, err := asyncEvent.DispatchAsyncWithResults(ctx, tc.data)
 				res := thevent.HandlersResults{}
 				errorMatchesGlob(t, err, tc.errorGlob)
 				if tc.errorGlob == "" {

@@ -50,9 +50,9 @@ func BenchmarkEvents(b *testing.B) {
 			})
 
 			e = setupEvent(b, numHandlers)
-			b.Run("DispatchAsyncWithErrors", func(b *testing.B) {
+			b.Run("DispatchAsyncWithResults", func(b *testing.B) {
 				for i := 0; i < b.N; i++ {
-					ch, err := e.DispatchAsyncWithErrors(ctx, i)
+					ch, err := e.DispatchAsyncWithResults(ctx, i)
 					// Don't "leak" the goroutines blocked by the unbuffered channel
 					go func() {
 						for range ch {
