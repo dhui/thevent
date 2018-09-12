@@ -1,6 +1,6 @@
 # thevent
 [![Build Status](https://img.shields.io/travis/dhui/thevent/master.svg)](https://travis-ci.org/dhui/thevent) [![Code Coverage](https://img.shields.io/codecov/c/github/dhui/thevent.svg)](https://codecov.io/gh/dhui/thevent) [![GoDoc](https://godoc.org/github.com/dhui/thevent?status.svg)](https://godoc.org/github.com/dhui/thevent) [![Go Report Card](https://goreportcard.com/badge/github.com/dhui/thevent)](https://goreportcard.com/report/github.com/dhui/thevent) [![GitHub Release](https://img.shields.io/github/release/dhui/thevent/all.svg)](https://github.com/dhui/thevent/releases)
-![Min Go version](https://img.shields.io/badge/Go-1.10%2C%201.11-lightgrey.svg)
+![Supported Go versions](https://img.shields.io/badge/Go-1.10%2C%201.11-lightgrey.svg)
 
 thevent is a typed hierarchical event system
 
