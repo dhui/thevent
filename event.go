@@ -53,7 +53,7 @@ func (r *HandlersResults) Erred() bool {
 }
 
 // ErrorRate returns the error rate of handlers' for a dispatched event. An error rate of 0.0 means that no errors
-// occured and an error rate of 1.0 means that every handler errored
+// occurred and an error rate of 1.0 means that every handler errored
 func (r *HandlersResults) ErrorRate() float32 {
 	if r.NumHandlers <= 0 {
 		return 0.0
