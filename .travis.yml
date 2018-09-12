@@ -3,11 +3,12 @@ sudo: false
 
 matrix:
   allow_failures:
-  - go: master
+    - go: master
   include:
-  # Supported versions of Go: https://golang.org/dl/
-  - go: 1.10.x
-  - go: master
+    # Supported versions of Go: https://golang.org/dl/
+    - go: "1.10.x"
+    - go: "1.11.x"
+    - go: master
 
 before_install:
   - go get github.com/golang/lint/golint
