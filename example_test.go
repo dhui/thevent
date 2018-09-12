@@ -74,15 +74,15 @@ func (p *playlist) swapSongs(ctx context.Context, idxA, idxB int) error {
 }
 
 // Event Handlers
-func playlistCreatedHandler(ctx context.Context, p playlist) error {
+func playlistCreatedHandler(ctx context.Context, p playlist) error { // nolint: unparam
 	printQueue.Append(fmt.Sprintf("Created playlist %q with songs: %v", p.Name, p.Songs))
 	return nil
 }
-func queuedSongHandler(ctx context.Context, sp songPlaylist) error {
+func queuedSongHandler(ctx context.Context, sp songPlaylist) error { // nolint: unparam
 	printQueue.Append(fmt.Sprintf("Queued song %q into playlist %q", sp.Song.Name, sp.Playlist.Name))
 	return nil
 }
-func swappedSongHandler(ctx context.Context, pss playlistSwapSongs) error {
+func swappedSongHandler(ctx context.Context, pss playlistSwapSongs) error { // nolint: unparam
 	printQueue.Append(fmt.Sprintf("Swapped songs %q and %q in playlist %q",
 		pss.Playlist.Songs[pss.IdxB].Name, pss.Playlist.Songs[pss.IdxA].Name, pss.Playlist.Name))
 	return nil
@@ -130,7 +130,7 @@ func Example() {
 	printQueue.Print()
 	printQueue.Clear()
 
-	playlistHandler := func(ctx context.Context, p playlist) error {
+	playlistHandler := func(ctx context.Context, p playlist) error { // nolint: unparam
 		printQueue.Append(fmt.Sprintf("Top-level playlist event got playlist: %q", p.Name))
 		return nil
 	}

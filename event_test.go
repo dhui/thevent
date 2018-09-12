@@ -186,7 +186,7 @@ func TestDispatch(t *testing.T) {
 	}
 
 	calledWith := -1
-	calledHandler := func(ctx context.Context, i int) error {
+	calledHandler := func(ctx context.Context, i int) error { // nolint: unparam
 		calledWith = i
 		return nil
 	}
@@ -201,7 +201,7 @@ func TestDispatch(t *testing.T) {
 	}
 
 	calledWithAsync := make(chan int)
-	calledHandlerAsync := func(ctx context.Context, i int) error {
+	calledHandlerAsync := func(ctx context.Context, i int) error { // nolint: unparam
 		calledWithAsync <- i
 		return nil
 	}
@@ -495,36 +495,42 @@ func TestDispatchSubEvent(t *testing.T) {
 	}
 
 	unexportedCalled := 0
-	unexportedTestStructHandler := func(ctx context.Context, e testStruct) error {
+	unexportedTestStructHandler := func(ctx context.Context, e testStruct) error { // nolint: unparam
 		unexportedCalled += e.v
 		return nil
 	}
+	// nolint: unparam
 	exportedNamedUnexportedStructHandler := func(ctx context.Context, e testExportedNamedUnexportedStruct) error {
 		unexportedCalled += e.Test.v
 		return nil
 	}
+	// nolint: unparam
 	exportedNamedUnexportedPtrStructHandler := func(ctx context.Context,
 		e testExportedNamedUnexportedPtrStruct) error {
 		unexportedCalled += e.Test.v
 		return nil
 	}
 	exportedCalled := 0
-	exportedTestStructHandler := func(ctx context.Context, e TestStruct) error {
+	exportedTestStructHandler := func(ctx context.Context, e TestStruct) error { // nolint: unparam
 		exportedCalled += e.v
 		return nil
 	}
+	// nolint: unparam
 	exportedEmbeddedStructHandler := func(ctx context.Context, e testExportedEmbeddedStruct) error {
 		exportedCalled += e.TestStruct.v
 		return nil
 	}
+	// nolint: unparam
 	exportedEmbeddedPtrStructHandler := func(ctx context.Context, e testExportedEmbeddedPtrStruct) error {
 		exportedCalled += e.TestStruct.v
 		return nil
 	}
+	// nolint: unparam
 	exportedNamedExportedStructHandler := func(ctx context.Context, e testExportedNamedExportedStruct) error {
 		exportedCalled += e.Test.v
 		return nil
 	}
+	// nolint: unparam
 	exportedNamedExportedPtrStructHandler := func(ctx context.Context, e testExportedNamedExportedPtrStruct) error {
 		exportedCalled += e.Test.v
 		return nil

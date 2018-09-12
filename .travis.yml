@@ -1,6 +1,10 @@
 language: go
 sudo: false
 
+env:
+  global:
+    - GOLANGCI_LINT_VERSION=v1.10.2
+
 matrix:
   allow_failures:
     - go: master
@@ -11,12 +15,10 @@ matrix:
     - go: master
 
 before_install:
-  - go get github.com/golang/lint/golint
+  - curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin $GOLANGCI_LINT_VERSION
 
 before_script:
-  - go vet ./...
-  - golint ./...
-  - gofmt -e -d -s .
+  - golangci-lint run
 
 script:
   - go test -v -race -coverprofile=coverage.txt
