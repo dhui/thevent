@@ -3,7 +3,7 @@ sudo: false
 
 env:
   global:
-    - GOLANGCI_LINT_VERSION=v1.10.2
+    - GOLANGCI_LINT_VERSION=v1.11.2
 
 matrix:
   allow_failures:
